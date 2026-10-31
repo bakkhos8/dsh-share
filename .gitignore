@@ -1,0 +1,44 @@
+# Generated applications, caches and local diagnostics
+build/
+dist/
+.appex-lab/
+backups/
+tests/results/
+*.app/
+*.appex/
+*.dmg
+*.pkg
+*.log
+*.har
+.installation.json
+
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Credentials and signing material
+.env
+.env.*
+!.env.example
+!.env.sample
+.secrets/
+secrets/
+credentials/
+*.key
+*.pem
+*.p12
+*.pfx
+*.mobileprovision
+*.provisionprofile
+
+# Local editor and agent state
+.idea/
+.vscode/
+.codex/
+.claude/
+
+# OS metadata and scratch files
+.DS_Store
+.DS_Store?
+*.swp
+*.tmp

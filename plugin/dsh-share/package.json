@@ -1,0 +1,41 @@
+{
+  "name": "dsh-share",
+  "version": "0.1.13",
+  "description": "DeepSeek Harness macOS 分享接收插件：把访达、微信等分享内容作为附件传入当前会话输入区",
+  "icon": "icon.png",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "icon.png",
+    "AvatarNotice.md",
+    "client.js",
+    "cordis.patch.yml",
+    "index.js",
+    "inbox-lock.js",
+    "native-helper.js",
+    "README.md",
+    "draft-files.js"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": []
+    }
+  },
+  "keywords": [
+    "dsh-plugin",
+    "dsh-share",
+    "deepseek-harness",
+    "macos",
+    "share-extension"
+  ],
+  "license": "MIT"
+}

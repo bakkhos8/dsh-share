@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>zh_CN</string>
+    <!-- 分享菜单里显示的名字 = 这个 appex 的 CFBundleDisplayName -->
+    <key>CFBundleDisplayName</key>
+    <string>DeepSeek Harness</string>
+    <key>CFBundleExecutable</key>
+    <string>DSHShareExtension</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.movy.dshshare.host.share</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>DSHShareExtension</string>
+    <key>CFBundleIconFile</key>
+    <string>icon</string>
+    <key>CFBundleIconName</key>
+    <string>icon</string>
+    <key>CFBundlePackageType</key>
+    <string>XPC!</string>
+    <key>CFBundleShortVersionString</key>
+    <string>0.1.13</string>
+    <key>CFBundleVersion</key>
+    <string>19</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>13.0</string>
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright © 2026 Movy.</string>
+    <key>NSExtension</key>
+    <dict>
+        <key>NSExtensionPointIdentifier</key>
+        <string>com.apple.share-services</string>
+        <!-- Swift 必须写 module.Class；module = swiftc -module-name -->
+        <key>NSExtensionPrincipalClass</key>
+        <string>DSHShareExtension.ShareViewController</string>
+        <key>NSExtensionAttributes</key>
+        <dict>
+            <!-- A share may contain multiple extension items. -->
+            <key>NSExtensionActivationRule</key>
+            <string>SUBQUERY (
+                extensionItems,
+                $extensionItem,
+                SUBQUERY (
+                    $extensionItem.attachments,
+                    $attachment,
+                    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.item"
+                    || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.url"
+                    || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.plain-text"
+                ).@count >= 1
+            ).@count >= 1</string>
+        </dict>
+    </dict>
+</dict>
+</plist>

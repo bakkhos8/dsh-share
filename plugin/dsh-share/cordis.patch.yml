@@ -1,0 +1,5 @@
+# dsh-share 的挂载层：profile 的 bundles 列表里出现 dsh-share 后，
+# 这一层把 Host 插件（index.js）以 id `dsh-share` 插进插件树。
+- insert:
+    - id: dsh-share
+      name: dsh-share
