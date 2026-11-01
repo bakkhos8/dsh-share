@@ -28,6 +28,17 @@ The inbox lock, cleanup command and plugin profile installer use a native execut
 
 Both the macOS share target and the DeepSeek Harness plugin must be installed.
 
+### System permissions
+
+Only two system settings need your action, and neither is a privacy permission prompt:
+
+1. The first launch of the unnotarized DMG build may be blocked; choose **Open Anyway** for it under **System Settings → Privacy & Security**. This happens once.
+2. Enable **DeepSeek Harness** under **System Settings → General → Login Items & Extensions → Sharing** (the setup assistant also checks this and tells you what to click).
+
+**Never requested:** Full Disk Access, Files & Folders (Desktop/Documents/Downloads), Accessibility, Screen Recording, Automation, Notifications, Camera or Microphone. The extension only reads the items the source app hands to the system Share menu; it does not scan your disk. Its inbox lives under the app's own `~/Library/Application Support/DSHShare/`, which is not a protected folder.
+
+The extension is sandboxed and declares three entitlements at signing time — granted at install, no dialog: `app-sandbox`, `files.user-selected.read-only`, and a `home-relative-path.read-write` exception scoped to `/Library/Application Support/DSHShare/` (the inbox). The host app and its bundled native helper are not sandboxed, run as the current user, use no privileged helper and need no `sudo` or admin password. Installing into `~/Applications` needs no admin rights; installing into `/Applications` only prompts for a password when your account cannot write there.
+
 ## Install
 
 ### Install from a DMG

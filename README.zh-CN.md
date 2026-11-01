@@ -28,6 +28,17 @@ DSH Share 提供包含 Apple Silicon 和 Intel 两个架构的 Universal 2 DMG�
 
 必须同时安装「macOS 分享入口」和「DeepSeek Harness 接收插件」。
 
+### 系统权限
+
+需要用户操作的只有两处系统设置，都不是隐私权限弹窗：
+
+1. 未公证 DMG 首次打开时，在「**系统设置 → 隐私与安全性**」对该 App 选择「**仍要打开**」，之后不再出现；
+2. 在「**系统设置 → 通用 → 登录项与扩展 → 共享**」勾选 **DeepSeek Harness**（安装助手第 3 步也会检查并提示）。
+
+**不需要、也不会请求**：完全磁盘访问、文件与文件夹（桌面／文稿／下载）、辅助功能、屏幕录制、自动化、通知、相机／麦克风。扩展读取的是来源应用通过系统分享菜单交给它的条目，不扫描你的磁盘；收件箱在本工具自己的 `~/Library/Application Support/DSHShare/` 下，不属于任何受保护的文件夹。
+
+扩展是沙盒扩展，签名时声明三个 entitlement，安装即生效、不弹窗：`app-sandbox`、`files.user-selected.read-only`，以及范围仅限 `/Library/Application Support/DSHShare/` 的 `home-relative-path.read-write`（收件箱）。宿主 App 与包内原生 helper 不沙盒、以当前用户身份运行，不使用特权 helper，也不需要 sudo 或管理员密码；装到 `~/Applications` 不需要管理员，装到 `/Applications` 仅在当前账户对其没有写权限时由 Finder 提示输入密码。
+
 ## 安装
 
 ### 使用 DMG 安装
