@@ -42,3 +42,7 @@ credentials/
 .DS_Store?
 *.swp
 *.tmp
+
+# Icon working area: candidates stay local until one is chosen
+/assets/icon-candidates/*
+!/assets/icon-candidates/README.md
