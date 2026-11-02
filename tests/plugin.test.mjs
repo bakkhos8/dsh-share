@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { chmod, mkdir, writeFile, readFile, readdir, rm, symlink } from 'node:fs/promises'
 import { randomUUID } from 'node:crypto'
 import { join } from 'node:path'
-import { VERSION, inject } from '../plugin/dsh-share/index.js'
+import { VERSION, inject } from '../plugins/dsh-macos-share/index.js'
 import { exists, until, host } from './helpers.mjs'
 
 const queued = f => until(async () => (await f.pending()).status === 200)

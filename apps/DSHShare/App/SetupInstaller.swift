@@ -91,7 +91,7 @@ enum SetupInstaller {
                           userInfo: [NSLocalizedDescriptionKey: "请先将 DSHShare 拖到应用程序文件夹，再从那里打开。"])
         }
         let helper = app.appendingPathComponent("Contents/MacOS/dsh-share-helper")
-        let source = app.appendingPathComponent("Contents/Resources/plugin/dsh-share", isDirectory: true)
+        let source = app.appendingPathComponent("Contents/Resources/plugins/dsh-macos-share", isDirectory: true)
         var arguments = ["install-plugin", "--profile-dir", profile.path, "--source", source.path, "--json"]
         if let pluginDestination, !pluginDestination.isEmpty { arguments += ["--destination", pluginDestination] }
         _ = try run(helper, arguments: arguments)

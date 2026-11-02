@@ -9,12 +9,12 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { exists } from './helpers.mjs'
 const exec = promisify(execFile), helper = process.env.DSH_SHARE_HELPER
-const sourceRoot = fileURLToPath(new URL('../plugin/dsh-share/', import.meta.url))
+const sourceRoot = fileURLToPath(new URL('../plugins/dsh-macos-share/', import.meta.url))
 async function fixture(t, decoration = '') {
   const root = await mkdtemp(join(tmpdir(), 'dsh-share-uninstall-test-' + decoration))
   t.after(() => rm(root, { recursive: true, force: true }))
   const profiles = join(root, 'profiles'), profile = join(profiles, 'desktop')
-  const source = join(root, 'source'), target = join(root, 'managed', 'dsh-share'), inbox = join(root, 'data', 'inbox')
+  const source = join(root, 'source'), target = join(root, 'managed', 'dsh-macos-share'), inbox = join(root, 'data', 'inbox')
   await mkdir(profile, { recursive: true }); await mkdir(source); await mkdir(inbox, { recursive: true })
   const original = { name: 'synthetic', dependencies: { keep: 'unchanged' },
     dsh: { profile: { bundles: ['existing'], keep: 'setting' } }, unrelated: ['#?', 42] }
@@ -42,12 +42,12 @@ test('uninstall removes this receiver and preserves unfinished shares and unrela
   const result = await f.uninstall()
   assert.equal(result.status, 'uninstalled'); assert.equal(result.changed, true)
   assert.equal(await exists(f.target), false)
-  assert.equal(await exists(join(f.profile, 'node_modules', 'dsh-share')), false)
+  assert.equal(await exists(join(f.profile, 'node_modules', 'dsh-macos-share')), false)
   assert.deepEqual(JSON.parse(await readFile(join(f.profile, 'package.json'), 'utf8')), f.original)
   assert.equal(await readFile(join(f.profile, 'node_modules', 'other', 'keep'), 'utf8'), 'other module')
   for (const name of retained) assert.equal(await readFile(join(f.inbox, name), 'utf8'), 'retained bytes: ' + name)
   assert.equal(await readFile(join(session, 'session'), 'utf8'), 'chat and attachments')
-  assert.equal(JSON.parse(await readFile(join(result.pluginBackup, 'package.json'), 'utf8')).name, 'dsh-share')
+  assert.equal(JSON.parse(await readFile(join(result.pluginBackup, 'package.json'), 'utf8')).name, 'dsh-macos-share')
   assert.equal(result.configurationBackups.length, 1)
 })
 
@@ -110,7 +110,7 @@ test('uninstall discovers standard profiles and recorded custom profiles outside
   assert.equal((await f.uninstall()).profiles.length, 3)
   for (const dir of [f.profile, second, custom]) {
     assert.deepEqual(JSON.parse(await readFile(join(dir, 'package.json'), 'utf8')), f.original)
-    assert.equal(await exists(join(dir, 'node_modules', 'dsh-share')), false)
+    assert.equal(await exists(join(dir, 'node_modules', 'dsh-macos-share')), false)
   }
 })
 test('uninstall supports earlier installation records without custom-profile tracking', async t => {
@@ -123,12 +123,12 @@ test('uninstall supports earlier installation records without custom-profile tra
 })
 test('development links are removed without moving or deleting source code', async t => {
   const f = await fixture(t), originalCode = await readFile(join(f.source, 'index.js'))
-  await mkdir(join(f.profile, 'node_modules')); await symlink(f.source, join(f.profile, 'node_modules', 'dsh-share'))
-  const configured = structuredClone(f.original); configured.dependencies['dsh-share'] = 'file:' + f.source
-  configured.dsh.profile.bundles.push('dsh-share')
+  await mkdir(join(f.profile, 'node_modules')); await symlink(f.source, join(f.profile, 'node_modules', 'dsh-macos-share'))
+  const configured = structuredClone(f.original); configured.dependencies['dsh-macos-share'] = 'file:' + f.source
+  configured.dsh.profile.bundles.push('dsh-macos-share')
   await writeFile(join(f.profile, 'package.json'), JSON.stringify(configured))
   await f.uninstall()
-  assert.equal(await exists(join(f.profile, 'node_modules', 'dsh-share')), false)
+  assert.equal(await exists(join(f.profile, 'node_modules', 'dsh-macos-share')), false)
   assert.deepEqual(await readFile(join(f.source, 'index.js')), originalCode)
   assert.deepEqual(JSON.parse(await readFile(join(f.profile, 'package.json'), 'utf8')), f.original)
 })
@@ -141,7 +141,7 @@ test('malformed owned configuration blocks uninstall before any active profile o
   await assert.rejects(f.uninstall())
   assert.deepEqual(await readFile(join(f.profile, 'package.json')), before)
   assert.equal(await exists(f.target), true)
-  assert.equal(await exists(join(f.profile, 'node_modules', 'dsh-share')), true)
+  assert.equal(await exists(join(f.profile, 'node_modules', 'dsh-macos-share')), true)
   assert.equal(await readFile(join(second, 'package.json'), 'utf8'), '{invalid')
 })
 test('unrelated and malformed unrelated profiles are left byte-for-byte unchanged', async t => {
@@ -156,12 +156,12 @@ test('unrelated and malformed unrelated profiles are left byte-for-byte unchange
 })
 test('a failed code archive rolls back updated manifests and module links', { skip: process.getuid?.() === 0 }, async t => {
   const f = await fixture(t); await f.install()
-  const before = await readFile(join(f.profile, 'package.json')), originalLink = await readlink(join(f.profile, 'node_modules', 'dsh-share'))
+  const before = await readFile(join(f.profile, 'package.json')), originalLink = await readlink(join(f.profile, 'node_modules', 'dsh-macos-share'))
   const backups = join(f.root, 'managed', 'backups'); await mkdir(backups); await chmod(backups, 0o500)
   try {
     await assert.rejects(f.uninstall())
     assert.deepEqual(await readFile(join(f.profile, 'package.json')), before)
-    assert.equal(await readlink(join(f.profile, 'node_modules', 'dsh-share')), originalLink)
+    assert.equal(await readlink(join(f.profile, 'node_modules', 'dsh-macos-share')), originalLink)
     assert.equal(await exists(f.target), true)
     assert.equal((await readdir(f.profile)).filter(name => name.includes('backup')).length, 2)
   } finally { await chmod(backups, 0o700) }
@@ -172,7 +172,7 @@ test('symlinked node_modules is refused without touching its external contents',
   const external = join(f.root, 'external-modules'); await rename(modules, external); await symlink(external, modules)
   await assert.rejects(f.uninstall(), /real directory/)
   assert.deepEqual(await readFile(join(f.profile, 'package.json')), before)
-  assert.equal(await exists(join(external, 'dsh-share')), true); assert.equal(await exists(f.target), true)
+  assert.equal(await exists(join(external, 'dsh-macos-share')), true); assert.equal(await exists(f.target), true)
 })
 test('symlinked or unrelated plugin destinations are preserved', async t => {
   const f = await fixture(t); await mkdir(join(f.root, 'managed')); await symlink(f.source, f.target)
@@ -220,7 +220,7 @@ test('reinstall repairs invalid helper metadata and retained data survives an un
   await writeFile(join(f.inbox, 'undelivered'), 'retained original')
   await f.uninstall(); await f.install()
   assert.equal(await readFile(join(f.inbox, 'undelivered'), 'utf8'), 'retained original')
-  assert.deepEqual(JSON.parse(await readFile(join(f.profile, 'package.json'), 'utf8')).dsh.profile.bundles, ['existing', 'dsh-share'])
+  assert.deepEqual(JSON.parse(await readFile(join(f.profile, 'package.json'), 'utf8')).dsh.profile.bundles, ['existing', 'dsh-macos-share'])
 })
 test('native App removal uses Trash and the disposable fixture can be restored', async t => {
   const f = await fixture(t), app = join(f.root, 'DSH Share uninstall fixture.app')

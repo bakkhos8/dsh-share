@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { writeFile, readFile, truncate, symlink, rm } from 'node:fs/promises'
 import { join } from 'node:path'
-import { FILE_CHUNK_BYTES, MAX_BATCH_BYTES, MAX_SOURCE_FILES, MAX_DRAFT_FILES } from '../plugin/dsh-share/draft-files.js'
+import { FILE_CHUNK_BYTES, MAX_BATCH_BYTES, MAX_SOURCE_FILES, MAX_DRAFT_FILES } from '../plugins/dsh-macos-share/draft-files.js'
 import { exists, until, host } from './helpers.mjs'
 
 const fileOnly = { version: 1, text: '', urls: [], items: [{ kind: 'file', name: 'test.bin', file: '0.bin' }] }

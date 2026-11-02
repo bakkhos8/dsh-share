@@ -144,8 +144,8 @@ SWIFTC="$SWIFT" SDK="$MACOS_SDK" TARGET_ARCH="$TARGET_ARCH" DEPLOY="$DEPLOY" \
   "$ROOT/scripts/build-helper.sh" "$APP/Contents/MacOS/dsh-share-helper"
 
 # Only declared package files enter the distributable app, never local configuration.
-"${DSH_BUNDLE_HELPER:-$APP/Contents/MacOS/dsh-share-helper}" bundle-plugin --source "$ROOT/plugin/dsh-share" \
-  --destination "$APP/Contents/Resources/plugin/dsh-share"
+"${DSH_BUNDLE_HELPER:-$APP/Contents/MacOS/dsh-share-helper}" bundle-plugin --source "$ROOT/plugins/dsh-macos-share" \
+  --destination "$APP/Contents/Resources/plugins/dsh-macos-share"
 chmod -R a+rX "$APP"
 
 # ---- sign (extension first, then host) ---------------------------------------

@@ -6,7 +6,7 @@ import { chmod, mkdtemp, mkdir, writeFile, readFile, rm, symlink } from 'node:fs
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { acquireInboxLock } from '../plugin/dsh-share/inbox-lock.js'
+import { acquireInboxLock } from '../plugins/dsh-macos-share/inbox-lock.js'
 import { exists } from './helpers.mjs'
 
 const exec = promisify(execFile)

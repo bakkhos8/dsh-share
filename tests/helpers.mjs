@@ -2,7 +2,7 @@ import './native-helper.mjs'
 import { mkdtemp, mkdir, writeFile, access, rm } from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
-import { apply } from '../plugin/dsh-share/index.js'
+import { apply } from '../plugins/dsh-macos-share/index.js'
 
 export const exists = async path => { try { await access(path); return true } catch { return false } }
 export async function until(predicate, timeout = 5000) {

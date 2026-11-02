@@ -3,7 +3,7 @@ import { pathToFileURL } from 'node:url'
 import { join } from 'node:path'
 const { apply } = await import(process.argv[3]
   ? pathToFileURL(join(process.argv[3], 'index.js')).href
-  : new URL('../../plugin/dsh-share/index.js', import.meta.url).href)
+  : new URL('../../plugins/dsh-macos-share/index.js', import.meta.url).href)
 
 const inbox = process.argv[2]
 const routes = new Map()

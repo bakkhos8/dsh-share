@@ -66,11 +66,11 @@ enum SetupChecks {
             let manifest = try object(profile.appendingPathComponent("package.json"), limit: 16 * 1024 * 1024)
             let dependencies = manifest["dependencies"] as? [String: Any]
             let settings = (manifest["dsh"] as? [String: Any])?["profile"] as? [String: Any]
-            guard dependencies?["dsh-share"] is String,
-                  (settings?["bundles"] as? [String])?.contains("dsh-share") == true else { return .notInstalled }
-            let plugin = profile.appendingPathComponent("node_modules/dsh-share")
+            guard dependencies?["dsh-macos-share"] is String,
+                  (settings?["bundles"] as? [String])?.contains("dsh-macos-share") == true else { return .notInstalled }
+            let plugin = profile.appendingPathComponent("node_modules/dsh-macos-share")
             guard FileManager.default.fileExists(atPath: plugin.appendingPathComponent("package.json").path) else { return .notInstalled }
-            guard try object(plugin.appendingPathComponent("package.json"), limit: 1024 * 1024)["name"] as? String == "dsh-share" else { return .notInstalled }
+            guard try object(plugin.appendingPathComponent("package.json"), limit: 1024 * 1024)["name"] as? String == "dsh-macos-share" else { return .notInstalled }
             guard harnessRunning else { return .harnessClosed }
             guard let hostExecutable else { return .unknown }
             var expectedHelper = fallbackHelper

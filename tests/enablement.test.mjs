@@ -20,11 +20,11 @@ async function fixture(t) {
     await rm(root, { recursive: true, force: true })
   })
   const profile = join(root, 'desktop #?'), inbox = join(root, 'inbox')
-  const plugin = join(profile, 'node_modules/dsh-share')
+  const plugin = join(profile, 'node_modules/dsh-macos-share')
   await mkdir(plugin, { recursive: true }); await mkdir(inbox)
-  const manifest = { dependencies: { 'dsh-share': 'file:' + plugin }, dsh: { profile: { bundles: ['dsh-share'] } } }
+  const manifest = { dependencies: { 'dsh-macos-share': 'file:' + plugin }, dsh: { profile: { bundles: ['dsh-macos-share'] } } }
   await writeFile(join(profile, 'package.json'), JSON.stringify(manifest))
-  await writeFile(join(plugin, 'package.json'), '{"name":"dsh-share"}')
+  await writeFile(join(plugin, 'package.json'), '{"name":"dsh-macos-share"}')
   await writeFile(join(plugin, '.installation.json'), JSON.stringify({ formatVersion: 1, helperPath: helper }))
   async function receiver(extra = []) {
     return JSON.parse((await exec(probe, ['receiver', '--profile', profile, '--inbox', inbox,

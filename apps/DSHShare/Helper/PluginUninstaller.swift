@@ -52,7 +52,7 @@ private func lexicalPath(_ value: String) -> String {
 
 private func isSharePackage(_ directory: String) -> Bool {
     guard let package = try? readJSON(directory + "/package.json"),
-          package["name"] as? String == "dsh-share",
+          package["name"] as? String == "dsh-macos-share",
           let dsh = package["dsh"] as? [String: Any],
           let bundle = dsh["bundle"] as? [String: Any] else { return false }
     return ["cordis.patch.yml", "./cordis.patch.yml"].contains(bundle["patch"] as? String ?? "")
@@ -70,7 +70,7 @@ private struct ProfileRemoval {
 private func removalPlan(_ profile: String, required: Bool, token: String) throws -> ProfileRemoval? {
     let manifestPath = profile + "/package.json"
     guard try fileInfo(manifestPath) != nil else { return nil }
-    let modules = profile + "/node_modules", link = modules + "/dsh-share"
+    let modules = profile + "/node_modules", link = modules + "/dsh-macos-share"
     let modulesInfo = try fileInfo(modules)
     // Never mutate a shared/external node_modules reached through a symlink.
     let realModules = modulesInfo == nil || modulesInfo!.st_mode & S_IFMT == S_IFDIR
@@ -88,11 +88,11 @@ private func removalPlan(_ profile: String, required: Bool, token: String) throw
         if required || ownedLink { throw error }
         return nil
     }
-    let dependency = (original["dependencies"] as? [String: Any])?["dsh-share"]
+    let dependency = (original["dependencies"] as? [String: Any])?["dsh-macos-share"]
     let dshValue = original["dsh"] as? [String: Any]
     let profileValue = dshValue?["profile"] as? [String: Any]
     let bundlesValue = profileValue?["bundles"] as? [Any]
-    let hasBundle = bundlesValue?.contains { $0 as? String == "dsh-share" } == true
+    let hasBundle = bundlesValue?.contains { $0 as? String == "dsh-macos-share" } == true
     guard dependency != nil || hasBundle || ownedLink else { return nil }
     guard realModules else { throw HelperFailure.message("profile node_modules is not a real directory; preserved") }
 
@@ -101,7 +101,7 @@ private func removalPlan(_ profile: String, required: Bool, token: String) throw
         guard var dependencies = original["dependencies"] as? [String: Any] else {
             throw HelperFailure.message("profile dependencies must be an object")
         }
-        dependencies.removeValue(forKey: "dsh-share")
+        dependencies.removeValue(forKey: "dsh-macos-share")
         updated["dependencies"] = dependencies
     }
     if original["dsh"] != nil {
@@ -110,7 +110,7 @@ private func removalPlan(_ profile: String, required: Bool, token: String) throw
             guard var config = profileValue else { throw HelperFailure.message("profile dsh.profile must be an object") }
             if config["bundles"] != nil {
                 guard let bundles = bundlesValue else { throw HelperFailure.message("profile dsh.profile.bundles must be an array") }
-                config["bundles"] = bundles.filter { $0 as? String != "dsh-share" }
+                config["bundles"] = bundles.filter { $0 as? String != "dsh-macos-share" }
             }
             dsh["profile"] = config
         }
@@ -120,7 +120,7 @@ private func removalPlan(_ profile: String, required: Bool, token: String) throw
     if let info = linkInfo {
         let kind = info.st_mode & S_IFMT
         guard kind == S_IFLNK || (kind == S_IFDIR && ownedLink) else {
-            throw HelperFailure.message("unrecognized dsh-share module; preserved")
+            throw HelperFailure.message("unrecognized dsh-macos-share module; preserved")
         }
         linkToRemove = link
     }
@@ -139,7 +139,7 @@ private func removalPlan(_ profile: String, required: Bool, token: String) throw
 /// Remove this integration and completed transfers. Preserve unfinished shares and source directories.
 func uninstallPlugin(profileRoot: String?, profileDirectory: String?, destination: String?, inbox: String?) throws -> [String: Any] {
     let home = fileManager.homeDirectoryForCurrentUser
-    let requested = lexicalPath(destination ?? home.appendingPathComponent("Library/Application Support/DSHShare/plugin/dsh-share").path)
+    let requested = lexicalPath(destination ?? home.appendingPathComponent("Library/Application Support/DSHShare/plugins/dsh-macos-share").path)
     if let info = try fileInfo(requested), info.st_mode & S_IFMT != S_IFDIR {
         throw HelperFailure.message("plugin destination is not a real directory; preserved")
     }

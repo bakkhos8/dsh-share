@@ -80,7 +80,7 @@ export function acquireInboxLock(inbox, { signal, waitMs = 2000, onLost = () => 
         if (!expectedExit) onLost(new Error('inbox lock helper exited; consumption stopped to preserve queued content'))
       } else if (!expectedExit) {
         fail(code === 75
-          ? 'inbox is already in use; disable dsh-share in the other profile before reloading this plugin'
+          ? 'inbox is already in use; disable dsh-macos-share in the other profile before reloading this plugin'
           : `inbox lock unavailable: ${diagnostic.trim() || output.trim() || `exit ${code}`}`,
         code === 75 ? 'INBOX_BUSY' : 'LOCK_UNAVAILABLE')
       }

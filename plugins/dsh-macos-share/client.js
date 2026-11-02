@@ -1,6 +1,6 @@
 /** Stage a share in the current composer's attachment rail; sending belongs to the user. */
 window.__ModuleLoader__.load({
-  id: 'dsh-share',
+  id: 'dsh-macos-share',
   factory: (require) => {
     const React = require('react')
     const BASE = '/api/dsh-share.draft.'
@@ -139,7 +139,7 @@ window.__ModuleLoader__.load({
           transfer?.abort()
           clearInterval(timer)
         }
-      }, 'dsh-share: current composer drafts')
+      }, 'dsh-macos-share: current composer drafts')
     }
 
     return { apply, inject: ['sessions', 'uiSession', 'conversation', 'slots'] }

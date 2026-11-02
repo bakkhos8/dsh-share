@@ -23,7 +23,7 @@ func absolutePath(_ value: String) -> String {
 
 private func bundledPluginPayload(_ source: String) throws -> (version: String, files: [String: Data]) {
     let package = try readJSON(source + "/package.json")
-    guard package["name"] as? String == "dsh-share", let version = package["version"] as? String,
+    guard package["name"] as? String == "dsh-macos-share", let version = package["version"] as? String,
           let declared = package["files"] as? [String] else {
         throw HelperFailure.message("bundled plugin package is invalid")
     }
@@ -69,7 +69,7 @@ func installPlugin(profileDirectory: String, source: String, destination: String
     let profile = absolutePath(profileDirectory)
     let source = absolutePath(source)
     let fallback = fileManager.homeDirectoryForCurrentUser
-        .appendingPathComponent("Library/Application Support/DSHShare/plugin/dsh-share").path
+        .appendingPathComponent("Library/Application Support/DSHShare/plugins/dsh-macos-share").path
     let target = absolutePath(destination ?? fallback)
     let parent = URL(fileURLWithPath: target).deletingLastPathComponent().path
     let manifest = profile + "/package.json"
@@ -98,7 +98,7 @@ func installPlugin(profileDirectory: String, source: String, destination: String
     payload[".installation.json"] = marker
     let nodeModules = profile + "/node_modules"
     try fileManager.createDirectory(atPath: nodeModules, withIntermediateDirectories: true)
-    let link = nodeModules + "/dsh-share"
+    let link = nodeModules + "/dsh-macos-share"
     let token = String(Int(Date().timeIntervalSince1970 * 1000)) + "-" + UUID().uuidString
     let staging = parent + "/.install-" + token
     let backups = parent + "/backups"

@@ -7,11 +7,11 @@ import { basename, join } from 'node:path'
 import { acquireInboxLock } from './inbox-lock.js'
 import { describeDraftFiles, draftSnapshot, publicDraftFiles, streamDraftFile, MAX_DRAFT_FILES } from './draft-files.js'
 
-export const name = 'dsh-share'
+export const name = 'dsh-macos-share'
 export const inject = ['connection']
-export const VERSION = '0.1.12'
+export const VERSION = '0.1.13'
 const SWEEP_MS = 1000
-const log = (...args) => console.warn('[dsh-share]', ...args)
+const log = (...args) => console.warn('[dsh-macos-share]', ...args)
 
 async function readJson(path) {
   const file = await open(path, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK)
@@ -176,7 +176,7 @@ export function apply(ctx, config) {
     await removeEmptyReceipts()
   }
 
-  if (connection?.fetch?.register === undefined) throw new Error('dsh-share requires connection.fetch.register')
+  if (connection?.fetch?.register === undefined) throw new Error('dsh-macos-share requires connection.fetch.register')
   const responseError = (error, status = 500) => Response.json({ error: String(error?.message ?? error) }, { status, headers })
   const validId = value => typeof value === 'string' && value.length > 0 && value.length <= 512
   const validShareId = value => typeof value === 'string' && /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/.test(value)
@@ -207,7 +207,7 @@ export function apply(ctx, config) {
       return Response.json({ protocol: 2, shareId: first.shareId,
         ...(first.state ? { targetSessionId: first.state.sessionId } : {}) }, { headers })
     },
-  }), 'dsh-share: pending route')
+  }), 'dsh-macos-share: pending route')
   ctx.effect(() => connection.fetch.register({
     path: '/api/dsh-share.draft.prepare', methods: ['POST'], requestBody: 'buffered',
     fetch: async request => {
@@ -240,7 +240,7 @@ export function apply(ctx, config) {
           requestId: delivery.state.requestId, files: publicDraftFiles(files) }, { headers })
       })
     },
-  }), 'dsh-share: draft preparation route')
+  }), 'dsh-macos-share: draft preparation route')
   ctx.effect(() => connection.fetch.register({
     path: '/api/dsh-share.draft.file', methods: ['POST'], requestBody: 'buffered',
     fetch: async request => {
@@ -264,7 +264,7 @@ export function apply(ctx, config) {
           'content-type': entry.type, 'content-length': String(entry.size) } })
       })
     },
-  }), 'dsh-share: draft file route')
+  }), 'dsh-macos-share: draft file route')
   ctx.effect(() => connection.fetch.register({
     path: '/api/dsh-share.draft.ack', methods: ['POST'], requestBody: 'buffered',
     fetch: async request => {
@@ -295,7 +295,7 @@ export function apply(ctx, config) {
         return Response.json({ protocol: 2, ok: true }, { headers })
       })
     },
-  }), 'dsh-share: ack route')
+  }), 'dsh-macos-share: ack route')
 
   async function queue(manifest, dir, shareId) {
     requireOwner()
@@ -403,6 +403,6 @@ export function apply(ctx, config) {
       cleanup.catch(error => log('inbox lock release failed', String(error)))
       return cleanup
     }
-  }, 'dsh-share: inbox sweeper')
+  }, 'dsh-macos-share: inbox sweeper')
   log('watching inbox', inbox, 'version', VERSION)
 }

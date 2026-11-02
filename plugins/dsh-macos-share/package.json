@@ -1,7 +1,7 @@
 {
-  "name": "dsh-share",
+  "name": "dsh-macos-share",
   "version": "0.1.13",
-  "description": "DeepSeek Harness macOS 分享接收插件：把访达、微信等分享内容作为附件传入当前会话输入区",
+  "description": "macOS share receiver for DeepSeek Harness: files, images, text and links shared from Finder or any app land in the current session draft. Requires the DSHShare.app share target.",
   "icon": "icon.png",
   "type": "module",
   "main": "index.js",
@@ -32,10 +32,20 @@
   },
   "keywords": [
     "dsh-plugin",
-    "dsh-share",
+    "dsh-macos-share",
     "deepseek-harness",
     "macos",
-    "share-extension"
+    "share-extension",
+    "share-menu"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "homepage": "https://github.com/bakkhos8/dsh-macos-share#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bakkhos8/dsh-macos-share.git",
+    "directory": "plugins/dsh-macos-share"
+  },
+  "os": [
+    "darwin"
+  ]
 }

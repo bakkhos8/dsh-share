@@ -64,7 +64,7 @@ DSH Share 提供包含 Apple Silicon 和 Intel 两个架构的 Universal 2 DMG�
 
 随后完成以下操作：
 
-1. 打开 DeepSeek Harness，确认插件列表中的 **dsh-share** 已启用。若尚未出现，重启 DeepSeek Harness。
+1. 打开 DeepSeek Harness，确认插件列表中的 **dsh-macos-share** 已启用。若尚未出现，重启 DeepSeek Harness。
 2. 如共享入口未启用，进入「**系统设置 → 通用 → 登录项与扩展 → 共享**」，勾选 **DeepSeek Harness**。
 3. 完全退出并重新打开安装前已经运行的来源应用，尤其是**微信**。请用 **⌘Q** 退出，仅关闭窗口不够。
 
@@ -95,7 +95,7 @@ DSH_PROFILE_DIR="$HOME/.dsh/profiles/your-profile" ./scripts/install-plugin.sh
 
 ### DeepSeek Harness 没有自动打开时
 
-如果无法打开，系统会提示错误。请手动打开 DeepSeek Harness，并确认 **dsh-share** 已启用。本地分享副本会保留，等待插件接收。打开一个有输入区的会话。排查期间不要反复分享同一内容，以免重复添加附件。
+如果无法打开，系统会提示错误。请手动打开 DeepSeek Harness，并确认 **dsh-macos-share** 已启用。本地分享副本会保留，等待插件接收。打开一个有输入区的会话。排查期间不要反复分享同一内容，以免重复添加附件。
 
 ## 隐私与本地数据
 
@@ -106,7 +106,7 @@ DSH_PROFILE_DIR="$HOME/.dsh/profiles/your-profile" ./scripts/install-plugin.sh
 | 位置 | 用途 |
 | --- | --- |
 | `/Applications/DSHShare.app` 或 `~/Applications/DSHShare.app` | macOS 共享入口与设置助手 |
-| `~/Library/Application Support/DSHShare/plugin/dsh-share` | 默认安装方式保存的插件文件 |
+| `~/Library/Application Support/DSHShare/plugins/dsh-macos-share` | 默认安装方式保存的插件文件 |
 | `~/Library/Application Support/DSHShare/inbox` | 待处理的本地分享副本 |
 | `inbox/failed/` | 失败包及错误信息 |
 
@@ -122,7 +122,7 @@ DSH Share 不保存会话历史，也不归档已完成的分享。Harness 输�
 | --- | --- |
 | 点击 DSHShare 没有窗口 | 先在「活动监视器」中退出 DSHShare，再从应用程序文件夹打开新版。保留一个安装副本，并推出安装磁盘；后台旧版可能接走打开请求。 |
 | 菜单里没有入口，或头像还是占位图 | 在系统设置启用扩展，然后完全退出并重开来源应用。微信请使用 ⌘Q。 |
-| DeepSeek Harness 没收到内容 | 打开应用，启用 **dsh-share**，安装或更新插件后重启应用，并核对使用的 profile。 |
+| DeepSeek Harness 没收到内容 | 打开应用，启用 **dsh-macos-share**，安装或更新插件后重启应用，并核对使用的 profile。 |
 | 文件夹或大文件无法分享 | 每次分享不超过 128 个普通文件，合计不超过 256 MiB；失败内容会保留。 |
 | 很长的内联文本分享失败 | 保存为文件再分享；内联文本与 manifest 元数据合计上限为 1 MiB。 |
 | 插件提示收件箱被占用 | 停用另一个接收端，再重新加载需要使用的插件。不要删除 `.consumer.lock`；持有进程退出后系统会释放锁。 |
@@ -152,7 +152,7 @@ DMG 更新时，先完全退出 DeepSeek Harness 和 DSHShare，再用新版替�
 ./scripts/build-app.sh --uninstall
 ```
 
-仅需暂停接收时，在 Harness 中停用 **dsh-share** 即可。
+仅需暂停接收时，在 Harness 中停用 **dsh-macos-share** 即可。
 
 ## 许可证
 

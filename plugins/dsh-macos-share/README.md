@@ -1,4 +1,4 @@
-# dsh-share
+# dsh-macos-share
 
 Receiving plugin for **DSH Share**, the macOS Share menu integration for DeepSeek Harness.
 
@@ -6,7 +6,7 @@ Select a thread in Harness, then share a file, image, text or link from another 
 
 No session is created and no agent is started by sharing. If no composer is available, the share waits. A transfer binds to the selected thread before reading files; after switching threads, return to the original thread to finish it.
 
-Use the native **DSHShare.app** setup assistant or the repository’s source installation scripts. This plugin alone cannot add a macOS Share menu entry. Enable **dsh-share** in Harness and update both the native app and receiving plugin together. The draft adapter targets the interfaces shipped with Harness **0.2.1-rc.5**; an unavailable or busy composer retains the share instead of sending it.
+Use the native **DSHShare.app** setup assistant or the repository’s source installation scripts. This plugin alone cannot add a macOS Share menu entry. Enable **dsh-macos-share** in Harness and update both the native app and receiving plugin together. The draft adapter targets the interfaces shipped with Harness **0.2.1-rc.5**; an unavailable or busy composer retains the share instead of sending it.
 
 The bundled native `dsh-share-helper` holds an exclusive OS inbox lock. There is no Python, interpreter or separately installed Node.js requirement. Stop other receivers before reloading the intended profile. Unexpected helper exit stops consumption safely.
 

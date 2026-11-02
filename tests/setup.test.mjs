@@ -7,16 +7,16 @@ import { mkdtemp, mkdir, writeFile, readFile, readdir, copyFile, chmod, readlink
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { resolveNativeHelper } from '../plugin/dsh-share/native-helper.js'
+import { resolveNativeHelper } from '../plugins/dsh-macos-share/native-helper.js'
 import { exists } from './helpers.mjs'
 
 const exec = promisify(execFile)
 const helper = process.env.DSH_SHARE_HELPER
-const packageRoot = fileURLToPath(new URL('../plugin/dsh-share/', import.meta.url))
+const packageRoot = fileURLToPath(new URL('../plugins/dsh-macos-share/', import.meta.url))
 async function fixture(t) {
   const root = await mkdtemp(join(tmpdir(), 'dsh-share-setup-test-'))
   t.after(() => rm(root, { recursive: true, force: true }))
-  const source = join(root, 'bundled plugin'), profile = join(root, 'profile'), target = join(root, 'installed', 'dsh-share')
+  const source = join(root, 'bundled plugin'), profile = join(root, 'profile'), target = join(root, 'installed', 'dsh-macos-share')
   await mkdir(source); await mkdir(profile)
   const manifest = join(profile, 'package.json')
   const original = '{"name":"fixture","dependencies":{"keep":"original"},"dsh":{"profile":{"bundles":["existing"]}}}\n'
@@ -44,14 +44,14 @@ test('first-run installation copies declared files and records the stable native
   const icon = await readFile(join(f.target, installedPackage.icon))
   assert.ok(icon.length <= 256 * 1024, 'Harness limits plugin icons to 256 KiB')
   assert.deepEqual(icon.subarray(0, 8), Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))
-  assert.equal(await realpath(await readlink(join(f.profile, 'node_modules', 'dsh-share'))), await realpath(f.target))
+  assert.equal(await realpath(await readlink(join(f.profile, 'node_modules', 'dsh-macos-share'))), await realpath(f.target))
   const again = await f.install()
   assert.equal(again.changed, false)
   assert.equal((await readdir(f.profile)).filter(name => name.includes('dsh-share-backup-')).length, 1)
 })
 
 test('bundling the plugin excludes local installation metadata and undeclared files', async t => {
-  const f = await fixture(t), destination = join(f.root, 'resources', 'dsh-share')
+  const f = await fixture(t), destination = join(f.root, 'resources', 'dsh-macos-share')
   await writeFile(join(f.source, '.installation.json'), '{"helperPath":"local-only"}')
   await writeFile(join(f.source, 'local-only.txt'), 'private fixture')
   await exec(helper, ['bundle-plugin', '--source', f.source, '--destination', destination])
@@ -64,11 +64,11 @@ test('installation through a directory alias is idempotent before and after dest
   await symlink(f.root, alias)
   const install = async () => JSON.parse((await exec(helper, ['install-plugin',
     '--profile-dir', join(alias, 'profile'), '--source', join(alias, 'bundled plugin'),
-    '--destination', join(alias, 'installed', 'dsh-share'), '--json'])).stdout)
+    '--destination', join(alias, 'installed', 'dsh-macos-share'), '--json'])).stdout)
   assert.equal((await install()).changed, true)
   assert.equal((await install()).changed, false)
   const pkg = JSON.parse(await readFile(f.manifest, 'utf8'))
-  assert.equal(await realpath(pkg.dependencies['dsh-share'].slice('file:'.length)), await realpath(f.target))
+  assert.equal(await realpath(pkg.dependencies['dsh-macos-share'].slice('file:'.length)), await realpath(f.target))
   assert.equal((await readdir(f.profile)).filter(name => name.includes('dsh-share-backup-')).length, 1)
 })
 
@@ -85,8 +85,8 @@ test('unsafe package paths are rejected before profile or destination changes', 
 test('an existing plugin directory is backed up and unrelated modules are retained', async t => {
   const f = await fixture(t)
   await mkdir(f.target, { recursive: true }); await writeFile(join(f.target, 'old.txt'), 'old plugin bytes')
-  await mkdir(join(f.profile, 'node_modules', 'dsh-share'), { recursive: true })
-  await writeFile(join(f.profile, 'node_modules', 'dsh-share', 'legacy.txt'), 'legacy module bytes')
+  await mkdir(join(f.profile, 'node_modules', 'dsh-macos-share'), { recursive: true })
+  await writeFile(join(f.profile, 'node_modules', 'dsh-macos-share', 'legacy.txt'), 'legacy module bytes')
   await mkdir(join(f.profile, 'node_modules', 'keep'))
   const result = await f.install()
   assert.equal(await readFile(join(result.pluginBackup, 'old.txt'), 'utf8'), 'old plugin bytes')
@@ -100,13 +100,13 @@ test('profile-write failure rolls back installed code and module links', { skip:
   const f = await fixture(t), oldLinkTarget = join(f.root, 'previous-plugin')
   await mkdir(f.target, { recursive: true }); await writeFile(join(f.target, 'old.txt'), 'old plugin bytes')
   await mkdir(oldLinkTarget); await mkdir(join(f.profile, 'node_modules'))
-  await symlink(oldLinkTarget, join(f.profile, 'node_modules', 'dsh-share'))
+  await symlink(oldLinkTarget, join(f.profile, 'node_modules', 'dsh-macos-share'))
   await chmod(f.profile, 0o500)
   try {
     await assert.rejects(f.install())
     assert.equal(await readFile(f.manifest, 'utf8'), f.original)
     assert.equal(await readFile(join(f.target, 'old.txt'), 'utf8'), 'old plugin bytes')
-    assert.equal(await readlink(join(f.profile, 'node_modules', 'dsh-share')), oldLinkTarget)
+    assert.equal(await readlink(join(f.profile, 'node_modules', 'dsh-macos-share')), oldLinkTarget)
   } finally { await chmod(f.profile, 0o700) }
 })
 

@@ -31,7 +31,7 @@ pluginkit -m -v -i com.movy.dshshare.host.share
 
 A `+` registration and a valid signature are prerequisites, not end-to-end acceptance. Try a small ordinary file through the actual source application's Share menu and check the resulting DSH session.
 
-If the source app was running during an update, completely quit and reopen it. This is particularly relevant to WeChat. If DSH does not receive the share, confirm that `dsh-share` is enabled in the intended profile and restart DSH.
+If the source app was running during an update, completely quit and reopen it. This is particularly relevant to WeChat. If DSH does not receive the share, confirm that `dsh-macos-share` is enabled in the intended profile and restart DSH.
 
 Update the native app and receiving plugin together. A custom app location can set `DSH_SHARE_HELPER` to that executable when starting DSH. The receiver does not run a compiler or fall back to an interpreter if the helper is missing.
 

@@ -12,7 +12,7 @@ enum HelperFailure: Error, CustomStringConvertible {
     var description: String {
         switch self {
         case .message(let value), .usage(let value): return value
-        case .busy: return "Inbox is in use. Disable dsh-share in every running profile, then retry."
+        case .busy: return "Inbox is in use. Disable dsh-macos-share in every running profile, then retry."
         case .installationBusy: return "Another plugin installation is in progress. Please try again."
         }
     }
@@ -272,7 +272,7 @@ func updatedProfile(_ path: String, plugin: String) throws -> [String: Any] {
         return result
     }
     var dependencies = try object(manifest["dependencies"], field: "dependencies")
-    dependencies["dsh-share"] = "file:" + plugin
+    dependencies["dsh-macos-share"] = "file:" + plugin
     manifest["dependencies"] = dependencies
     var dsh = try object(manifest["dsh"], field: "dsh")
     var profile = try object(dsh["profile"], field: "dsh.profile")
@@ -280,7 +280,7 @@ func updatedProfile(_ path: String, plugin: String) throws -> [String: Any] {
         throw HelperFailure.message("profile dsh.profile.bundles must be an array")
     }
     var bundles = profile["bundles"] as? [Any] ?? []
-    if !bundles.contains(where: { $0 as? String == "dsh-share" }) { bundles.append("dsh-share") }
+    if !bundles.contains(where: { $0 as? String == "dsh-macos-share" }) { bundles.append("dsh-macos-share") }
     profile["bundles"] = bundles; dsh["profile"] = profile; manifest["dsh"] = dsh
     return manifest
 }

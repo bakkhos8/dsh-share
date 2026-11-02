@@ -11,8 +11,8 @@ The receiver never creates a session, navigates to another thread, submits a pro
 - `apps/DSHShare/Extension`: sandboxed native AppKit Share Extension, embedded in the signed `DSHShare.app` and registered through LaunchServices/PlugInKit.
 - `apps/DSHShare/App`: native four-step setup assistant and uninstaller.
 - `apps/DSHShare/Helper`: bundled Swift helper for locking, profile configuration, installation, uninstall and safe completion cleanup. No interpreter or runtime compiler.
-- `plugin/dsh-share/index.js`: Host plugin inside Harness’s embedded Node process; validates queued packages and serves authenticated local transfer routes.
-- `plugin/dsh-share/client.js`: browser plugin bound to Harness’s current composer; registers browser files as draft attachments and confirms receipt.
+- `plugins/dsh-macos-share/index.js`: Host plugin inside Harness’s embedded Node process; validates queued packages and serves authenticated local transfer routes.
+- `plugins/dsh-macos-share/client.js`: browser plugin bound to Harness’s current composer; registers browser files as draft attachments and confirms receipt.
 
 Harness’s official app bundle is not modified. A Harness plugin cannot itself register a native macOS Share Extension.
 

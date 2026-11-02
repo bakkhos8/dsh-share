@@ -64,7 +64,7 @@ The first command installs **DSHShare.app** into `~/Applications` and registers 
 
 Then:
 
-1. Open DeepSeek Harness and check that **dsh-share** is enabled in its plugin list. Restart DeepSeek Harness if the plugin has not appeared.
+1. Open DeepSeek Harness and check that **dsh-macos-share** is enabled in its plugin list. Restart DeepSeek Harness if the plugin has not appeared.
 2. In **System Settings → General → Login Items & Extensions → Sharing**, enable **DeepSeek Harness** if needed.
 3. Completely quit and reopen source apps that were already running, especially **WeChat**. Use **Command-Q**; closing a window is not sufficient.
 
@@ -95,7 +95,7 @@ Open the content's sharing options and choose **Other apps → Choose an app on 
 
 ### If DeepSeek Harness does not open
 
-If the app cannot be opened, an error is reported. Open DeepSeek Harness manually and confirm that **dsh-share** is enabled. The saved share remains in the local inbox until it can be handled. Select a thread with an input area. Avoid repeatedly sharing the same item while checking a pending delivery, as each new share adds another attachment.
+If the app cannot be opened, an error is reported. Open DeepSeek Harness manually and confirm that **dsh-macos-share** is enabled. The saved share remains in the local inbox until it can be handled. Select a thread with an input area. Avoid repeatedly sharing the same item while checking a pending delivery, as each new share adds another attachment.
 
 ## Privacy and local data
 
@@ -106,7 +106,7 @@ The native extension hands content over through a local directory and does not n
 | Location | Purpose |
 | --- | --- |
 | `/Applications/DSHShare.app` or `~/Applications/DSHShare.app` | Share menu target and setup assistant |
-| `~/Library/Application Support/DSHShare/plugin/dsh-share` | Plugin files installed by the default installer |
+| `~/Library/Application Support/DSHShare/plugins/dsh-macos-share` | Plugin files installed by the default installer |
 | `~/Library/Application Support/DSHShare/inbox` | Pending local copies of shares |
 | `inbox/failed/` | Failed packages and their error details |
 
@@ -122,7 +122,7 @@ Interrupted cleanup resumes automatically when the receiver runs again. Confirme
 | --- | --- |
 | Clicking DSHShare opens no window | Quit any running DSHShare in Activity Monitor, then open the current copy from Applications. Keep one installed copy and eject the installation disk image; an older copy still running can receive the open request. |
 | Missing menu entry or old icon | Enable the extension in System Settings, then completely quit and reopen the source app. For WeChat, use Command-Q. |
-| Nothing arrives in DeepSeek Harness | Open DeepSeek Harness, enable **dsh-share**, and restart it after installing or updating the plugin. Check the intended profile. |
+| Nothing arrives in DeepSeek Harness | Open DeepSeek Harness, enable **dsh-macos-share**, and restart it after installing or updating the plugin. Check the intended profile. |
 | A directory or a large file fails | Share at most 128 regular files and 256 MiB in total. Failed content is retained. |
 | Very long inline text fails | Save it as a file and share the file. Inline text and manifest metadata together are limited to 1 MiB. |
 | The plugin reports that the inbox is in use | Disable the other receiver, then reload the intended plugin. Do not remove `.consumer.lock`; the system releases ownership when its holder exits. |
@@ -152,7 +152,7 @@ Source installations can also open the same confirmation flow with:
 ./scripts/build-app.sh --uninstall
 ```
 
-To pause receiving without uninstalling, disable **dsh-share** in Harness.
+To pause receiving without uninstalling, disable **dsh-macos-share** in Harness.
 
 ## License
 

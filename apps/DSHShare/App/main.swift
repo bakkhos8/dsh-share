@@ -322,16 +322,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMe
         case .notInstalled:
             row(symbol: "exclamationmark.circle", title: "接收组件尚未安装", detail: "点击下方“返回安装”，添加 Harness 接收组件。", color: .systemOrange)
         case .harnessClosed:
-            row(symbol: "1.circle", title: "打开 DeepSeek Harness", detail: "启动后会自动检查 dsh-share 的运行状态。",
+            row(symbol: "1.circle", title: "打开 DeepSeek Harness", detail: "启动后会自动检查 dsh-macos-share 的运行状态。",
                 actionTitle: "打开 Harness", action: #selector(openHarness))
         case .inactive:
-            row(symbol: "1.circle", title: "启用 Harness 接收组件", detail: "在 Harness 的插件列表中启用 dsh-share，助手会自动复查。",
+            row(symbol: "1.circle", title: "启用 Harness 接收组件", detail: "在 Harness 的插件列表中启用 dsh-macos-share，助手会自动复查。",
                 actionTitle: "打开 Harness", action: #selector(openHarness))
         case .otherProfile:
-            row(symbol: "exclamationmark.circle", title: "其它 Harness 实例正在接收", detail: "先停用其它实例的 dsh-share，再启用桌面版。", color: .systemOrange,
+            row(symbol: "exclamationmark.circle", title: "其它 Harness 实例正在接收", detail: "先停用其它实例的 dsh-macos-share，再启用桌面版。", color: .systemOrange,
                 actionTitle: "打开 Harness", action: #selector(openHarness))
         case .unknown:
-            row(symbol: "questionmark.circle", title: "暂时无法确认接收状态", detail: "可以在 Harness 中检查 dsh-share，或直接测试分享。", color: .systemOrange,
+            row(symbol: "questionmark.circle", title: "暂时无法确认接收状态", detail: "可以在 Harness 中检查 dsh-macos-share，或直接测试分享。", color: .systemOrange,
                 actionTitle: "打开 Harness", action: #selector(openHarness))
         }
         switch status.sharing {
@@ -476,7 +476,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMe
             add(text("卸载 DSH Share", size: 24, weight: .semibold))
             add(text("移除分享入口和接收组件，App 将移到废纸篓。", color: .secondaryLabelColor))
             row(symbol: "minus.circle", title: "移除系统分享入口", detail: "共享菜单将不再提供 DSH Share 的 DeepSeek Harness 入口。")
-            row(symbol: "minus.circle", title: "移除 Harness 接收组件", detail: "清除已连接配置中的 dsh-share，保留其它插件和设置。")
+            row(symbol: "minus.circle", title: "移除 Harness 接收组件", detail: "清除已连接配置中的 dsh-macos-share，保留其它插件和设置。")
             if !canUninstall {
                 add(text("请从应用程序文件夹打开已安装的 DSHShare，再执行卸载。", size: 12, color: .secondaryLabelColor))
                 primary.isEnabled = false
@@ -571,7 +571,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMe
     @objc private func showTroubleshooting() {
         let alert = NSAlert()
         alert.messageText = "分享没有成功时"
-        alert.informativeText = "1. 没有入口或头像不对：检查系统共享扩展，并完全退出、重新打开来源应用。微信请按 ⌘Q。\n\n2. Harness 没收到：打开接收会话，确认 dsh-share 已启用，再检查输入区的附件。\n\n3. 先用内置的小文本文件测试。请勿反复分享同一内容，以免重复添加附件。\n\n未送达的内容会保留，可以稍后继续排查。"
+        alert.informativeText = "1. 没有入口或头像不对：检查系统共享扩展，并完全退出、重新打开来源应用。微信请按 ⌘Q。\n\n2. Harness 没收到：打开接收会话，确认 dsh-macos-share 已启用，再检查输入区的附件。\n\n3. 先用内置的小文本文件测试。请勿反复分享同一内容，以免重复添加附件。\n\n未送达的内容会保留，可以稍后继续排查。"
         alert.addButton(withTitle: "返回测试"); alert.beginSheetModal(for: window)
     }
     private func finish() { if !busy { window.performClose(nil) } }

@@ -4,7 +4,7 @@ import { fork } from 'node:child_process'
 import { mkdtemp, mkdir, writeFile, readFile, rm, symlink } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { acquireInboxLock } from '../plugin/dsh-share/inbox-lock.js'
+import { acquireInboxLock } from '../plugins/dsh-macos-share/inbox-lock.js'
 import { exists, until, host } from './helpers.mjs'
 
 async function processFixture(t) {

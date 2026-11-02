@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import vm from 'node:vm'
 import { readFile } from 'node:fs/promises'
 
-const source = await readFile(new URL('../../plugin/dsh-share/client.js', import.meta.url), 'utf8')
+const source = await readFile(new URL('../../plugins/dsh-macos-share/client.js', import.meta.url), 'utf8')
 export const flush = async () => { for (let i = 0; i < 30; i++) await new Promise(resolve => setImmediate(resolve)) }
 
 export async function clientHarness(t, options = {}) {
