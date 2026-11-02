@@ -154,6 +154,12 @@ Source installations can also open the same confirmation flow with:
 
 To pause receiving without uninstalling, disable **dsh-macos-share** in Harness.
 
+## Distribution and marketplace
+
+The receiving plugin is published as the npm package **`dsh-macos-share`** (the shorter name `dsh-share` was already taken by an unrelated plugin), so `dsh plugin add dsh-macos-share` installs it into a profile. The native share target still ships as the DMG.
+
+DeepSeek Harness has no first-party plugin registry; discovery runs through the community index [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin). The submission entry and the maintainer-facing checklist live in [docs/market](docs/market/README.md).
+
 ## License
 
 Source code and documentation are available under [MIT](LICENSE). The avatar icon is **not included in that MIT grant**; see the [asset notice](apps/DSHShare/Resources/README.md) before reusing it.

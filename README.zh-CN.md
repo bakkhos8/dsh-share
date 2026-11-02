@@ -154,6 +154,12 @@ DMG 更新时，先完全退出 DeepSeek Harness 和 DSHShare，再用新版替�
 
 仅需暂停接收时，在 Harness 中停用 **dsh-macos-share** 即可。
 
+## 分发与市场
+
+接收插件发布为 npm 包 **`dsh-macos-share`**（更短的 `dsh-share` 已被一个无关插件占用），因此 `dsh plugin add dsh-macos-share` 即可把它装进 profile；原生分享入口仍通过 DMG 分发。
+
+DeepSeek Harness 没有官方插件注册表，生态发现走社区索引 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin)。投稿条目与维护者核对清单位于 [docs/market](docs/market/README.md)。
+
 ## 许可证
 
 代码与文档采用 [MIT](LICENSE) 许可证。头像图标**不包含在 MIT 授权范围内**，复用前请阅读[素材说明](apps/DSHShare/Resources/README.md)。

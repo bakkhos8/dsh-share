@@ -1,0 +1,11 @@
+# Marketplace entry for https://github.com/awesome-dsh-plugin/awesome-dsh-plugin
+#
+# Copy this file to data/plugins/bakkhos8__dsh-macos-share--plugins-dsh-macos-share.yml
+# in a pull request against that repository (one file per plugin, at most 3 per PR).
+url: https://github.com/bakkhos8/dsh-macos-share/tree/main/plugins/dsh-macos-share
+name: bakkhos8/dsh-macos-share#dsh-macos-share
+category: notify
+description:
+  en: 'macOS Share menu target for DeepSeek Harness: files, images, text and links shared from Finder or other apps become draft attachments in the current session. Requires the DSHShare.app share target (macOS 13+).'
+  zh: '在 macOS 分享菜单把文件、图片、文本和链接送进 DeepSeek Harness 当前会话的草稿附件（需先安装 DSHShare.app，macOS 13+）。'
+icon: https://raw.githubusercontent.com/bakkhos8/dsh-macos-share/main/plugins/dsh-macos-share/icon.png
