@@ -46,3 +46,5 @@ credentials/
 # Icon working area: candidates stay local until one is chosen
 /assets/icon-candidates/*
 !/assets/icon-candidates/README.md
+# The shipped artwork source itself stays tracked
+!/assets/icon-candidates/AppIcon.png

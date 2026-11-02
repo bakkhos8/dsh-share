@@ -2,7 +2,7 @@
 # Package the approved PNG avatar as a multi-resolution macOS icon.
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SOURCE="$ROOT/apps/DSHShare/Resources/AppIcon.png"
+SOURCE="$ROOT/assets/icon-candidates/AppIcon.png"
 BUILD="${DSH_BUILD_DIR:-$ROOT/build}"
 OUTPUT="$BUILD/AppIcon.icns"
 if [[ ! -f "$SOURCE" ]]; then

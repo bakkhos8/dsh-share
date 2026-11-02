@@ -1,6 +1,6 @@
 # DSH Share
 
-<img src="apps/DSHShare/Resources/AppIcon.png" alt="DSH Share 图标" width="96" />
+<img src="assets/icon-candidates/AppIcon.png" alt="DSH Share 图标" width="96" />
 
 DSH Share 是 macOS 本机分享工具，通过系统共享菜单，将**同一台 Mac** 上其他应用的文件、图片、文本和链接发送到 **DeepSeek Harness 桌面版**。分享内容会作为附件放入 **Harness 当前会话的输入区**，由你检查后手动发送。
 
